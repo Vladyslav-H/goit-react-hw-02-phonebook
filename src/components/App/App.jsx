@@ -1,9 +1,10 @@
 import { Component } from 'react';
+import uniqid from 'uniqid';
 
 import ContactList from '../ContactList/ContactList';
 import { Form } from '../Form/Form';
 import Filter from 'components/Filter/Filter';
- 
+
 export class App extends Component {
   state = {
     contacts: [],
@@ -34,11 +35,10 @@ export class App extends Component {
         alert(`${data.name} is alredy in contacts`);
         return;
       } else {
-        data.id = `id-${contacts.length + 1}`;
+        data = { ...data, id: uniqid() };
       }
-      
-      return {contacts:[...prevState.contacts,data]}
-      
+
+      return { contacts: [...prevState.contacts, data] };
     });
   };
 
@@ -51,14 +51,10 @@ export class App extends Component {
   };
 
   render() {
-
     const filterList = this.filterVisible();
 
     return (
-      <div
-        style={
-       { marginLeft: '100px'}
-      }>
+      <div style={{ marginLeft: '100px' }}>
         <h1>Phonebook</h1>
         <Form onSubmitHandle={this.formSubmitHandle} />
 
