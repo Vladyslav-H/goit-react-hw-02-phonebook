@@ -1,8 +1,9 @@
 import { Component } from 'react';
- 
-import ContactList from './Filter/ContactList/ContactList';
-import { Form } from './Form/Form';
-import Filter from './Filter/Filter';
+
+import ContactList from '../ContactList/ContactList';
+import { Form } from '../Form/Form';
+import Filter from 'components/Filter/Filter';
+import { Wrapp } from './App.styled';
 
 export class App extends Component {
   state = {
@@ -25,7 +26,8 @@ export class App extends Component {
 
   formSubmitHandle = data => {
     this.setState(prevState => {
-      const newContact = prevState.contacts.find(
+      const { contacts } = prevState;
+      const newContact = contacts.find(
         ({ name }) => name.toLowerCase() === data.name.toLowerCase()
       );
 
@@ -33,34 +35,40 @@ export class App extends Component {
         alert(`${data.name} is alredy in contacts`);
         return;
       } else {
-        data.id = `id-${prevState.contacts.length + 1}`;
+        data.id = `id-${contacts.length + 1}`;
       }
-
-      return prevState.contacts.push(data);
+      
+      return contacts.push(data);
     });
   };
 
-  deleteContact = e => {
+  deleteContact = id => {
     this.setState(prevState => {
       return (prevState.contacts = prevState.contacts.filter(
-        contact => contact.id !== e.target.id
+        contact => contact.id !== id
       ));
     });
   };
 
   render() {
+
+    const filterList = this.filterVisible();
+
     return (
-      <>
+      <div
+        style={
+       { marginLeft: '100px'}
+      }>
         <h1>Phonebook</h1>
         <Form onSubmitHandle={this.formSubmitHandle} />
 
         <h2>Contacts</h2>
         <Filter filter={this.state.filter} onChange={this.changeFilter} />
         <ContactList
-          filterVisible={this.filterVisible()}
+          filterVisible={filterList}
           deleteContact={this.deleteContact}
         />
-      </>
+      </div>
     );
   }
 }
