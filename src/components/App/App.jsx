@@ -3,8 +3,7 @@ import { Component } from 'react';
 import ContactList from '../ContactList/ContactList';
 import { Form } from '../Form/Form';
 import Filter from 'components/Filter/Filter';
-import { Wrapp } from './App.styled';
-
+ 
 export class App extends Component {
   state = {
     contacts: [],
@@ -38,7 +37,8 @@ export class App extends Component {
         data.id = `id-${contacts.length + 1}`;
       }
       
-      return contacts.push(data);
+      return {contacts:[...prevState.contacts,data]}
+      
     });
   };
 
