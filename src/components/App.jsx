@@ -1,6 +1,5 @@
 import { Component } from 'react';
-// import shortid from 'shortid';
-
+ 
 import ContactList from './Filter/ContactList/ContactList';
 import { Form } from './Form/Form';
 import Filter from './Filter/Filter';
@@ -25,32 +24,42 @@ export class App extends Component {
   };
 
   formSubmitHandle = data => {
-    this.setState(prevState =>
-      prevState.contacts.find(
+    this.setState(prevState => {
+      const newContact = prevState.contacts.find(
         ({ name }) => name.toLowerCase() === data.name.toLowerCase()
-      )
-        ? alert(`${data.name} is alredy in contacts`)
-        : prevState.contacts.push(data)
-    );
+      );
+
+      if (newContact) {
+        alert(`${data.name} is alredy in contacts`);
+        return;
+      } else {
+        data.id = `id-${prevState.contacts.length + 1}`;
+      }
+
+      return prevState.contacts.push(data);
+    });
   };
 
   deleteContact = e => {
-  console.log(e.target.parentElement);
-}
+    this.setState(prevState => {
+      return (prevState.contacts = prevState.contacts.filter(
+        contact => contact.id !== e.target.id
+      ));
+    });
+  };
 
   render() {
     return (
       <>
         <h1>Phonebook</h1>
-        <Form onSUbmit={this.formSubmitHandle} />
+        <Form onSubmitHandle={this.formSubmitHandle} />
 
         <h2>Contacts</h2>
-        <Filter
-          filter={this.state.filter}
-          onChange={this.changeFilter} />
+        <Filter filter={this.state.filter} onChange={this.changeFilter} />
         <ContactList
-          filterVisible={this.filterVisible()} d
-          eleteContact={this.deleteContact} />
+          filterVisible={this.filterVisible()}
+          deleteContact={this.deleteContact}
+        />
       </>
     );
   }

@@ -3,10 +3,10 @@ const ContactList = ({filterVisible,deleteContact}) => {
  
     return (
         <ul>
-  {filterVisible.map(({ name, number }) => (
-    <li key={name}>
+  {filterVisible.map(({id, name, number }) => (
+    <li key={id}>
           {name}: {number}
-          <button type='button' onClick={deleteContact}>Delete</button>
+          <button id={id} type='button' onClick={deleteContact}>Delete</button>
     </li>
   ))}
 </ul>

@@ -1,11 +1,10 @@
 import { Component } from 'react';
-import shortid from 'shortid';
 
 export class Form extends Component {
   state = {
+    id: '',
     name: '',
     number: '',
-    id: `id-`,
   };
   handleInputChange = e => {
     const { name, value } = e.target;
@@ -16,7 +15,7 @@ export class Form extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    this.props.onSUbmit(this.state);
+    this.props.onSubmitHandle(this.state);
 
     this.resetForm();
   };
